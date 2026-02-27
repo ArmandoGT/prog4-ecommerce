@@ -6,5 +6,5 @@ class HomeView(TemplateView):
     template_name = 'index.html'
     def get_context_data(self, **kwargs):
         cont = super(HomeView, self).get_context_data(**kwargs)
-        cont['prods'] = Producto.disponivel.all().order_by('?')[:3]
+        cont['prods'] = Producto.disponiveis.all().order_by('?')[:3]
         return cont

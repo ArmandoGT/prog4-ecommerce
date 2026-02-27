@@ -1,0 +1,11 @@
+<h1>Produtos em Destaque</h1>
+<div class="row">
+    {% for produto in prods %}
+        <div class="card">
+            <h3>{{ produto.nome }}</h3>
+            <p>R$ {{ produto.preco }}</p>
+        </div>
+    {% empty %}
+        <p>Nenhum produto disponível no momento.</p>
+    {% endfor %}
+</div>

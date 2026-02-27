@@ -1,11 +1,17 @@
-<h1>Produtos em Destaque</h1>
-<div class="row">
-    {% for produto in prods %}
-        <div class="card">
-            <h3>{{ produto.nome }}</h3>
-            <p>R$ {{ produto.preco }}</p>
-        </div>
-    {% empty %}
-        <p>Nenhum produto disponível no momento.</p>
-    {% endfor %}
-</div>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Catalogo de Produtos {% endblock %}
+
+{% block conteudo %}
+    <article>
+        <h2>Somos a melhor loja de produtos de informatica da web</h2>
+        <h4>Aproveite as ofertas</h4>
+    </article>
+
+    <article class="grid">
+        {% for p in prods %}
+
+    </article>
+
+{% endblock %}

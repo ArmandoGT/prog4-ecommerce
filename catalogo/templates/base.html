@@ -1,11 +1,38 @@
-<h1>Produtos em Destaque</h1>
-<div class="row">
-    {% for produto in prods %}
-        <div class="card">
-            <h3>{{ produto.nome }}</h3>
-            <p>R$ {{ produto.preco }}</p>
-        </div>
-    {% empty %}
-        <p>Nenhum produto disponível no momento.</p>
-    {% endfor %}
-</div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %} Meu E-commerce {% endblock %}</title>
+
+    <style>
+        /* Estilos básicos só para não ficar tudo branco */
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
+        header { background-color: #005C84; color: white; padding: 1.5rem; text-align: center; }
+        header a { color: white; text-decoration: none; font-weight: bold; }
+        main { padding: 20px; max-width: 900px; margin: 20px auto; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .grid { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-around; }
+        .card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 28%; text-align: center; background: #fafafa; }
+        .btn { display: inline-block; padding: 8px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Catálogo de Produtos</h1>
+        <nav>
+            <a href="{% url 'home' %}">Início da Loja</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block conteudo %}
+        {% endblock %}
+    </main>
+
+    <footer style="text-align: center; padding: 20px; color: #666;">
+        <p>&copy; 2026 - Programação IV | IFRO</p>
+    </footer>
+
+</body>
+</html>

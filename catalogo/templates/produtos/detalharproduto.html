@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} {{ produto.nome }} | Catálogo {% endblock %}
+
+{% block conteudo %}
+    <article class="produto-detalhe">
+        <h1>{{ produto.nome }}</h1>
+        <p><strong>Categoria:</strong> {{ produto.categoria.nome }}</p>
+
+        {% if produto.imagem %}
+            <img src="{{ produto.imagem.url }}" alt="Imagem do {{ produto.nome }}" style="max-width: 400px; border-radius: 8px;">
+        {% endif %}
+
+        <h2 style="color: green;">R$ {{ produto.preco }}</h2>
+        
+        <hr>
+        
+        <h3>Descrição:</h3>
+        <p>{{ produto.descricao }}</p>
+
+        <br>
+        <a href="{% url 'home' %}">
+            <button>Voltar para a loja</button>
+        </a>
+    </article>
+{% endblock %}

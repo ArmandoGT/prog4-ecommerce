@@ -1,17 +1,29 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block titulo %} Catalogo de Produtos {% endblock %}
+{% block titulo %} Catálogo de Produtos - Home {% endblock %}
 
 {% block conteudo %}
-    <article>
-        <h2>Somos a melhor loja de produtos de informatica da web</h2>
-        <h4>Aproveite as ofertas</h4>
+    <article style="text-align: center; margin-bottom: 40px;">
+        <h2>Somos a melhor loja de produtos de informática da web</h2>
+        <h4 style="color: #666;">Aproveite as ofertas abaixo!</h4>
     </article>
 
+    <hr>
+    <br>
+
+    <h3>Produtos em Destaque</h3>
     <article class="grid">
         {% for p in prods %}
+            <div class="card">
+                <h3>{{ p.nome }}</h3>
+                <p style="font-size: 1.2rem; color: #28a745; font-weight: bold;">R$ {{ p.preco }}</p>
 
+                <a href="{% url 'produto_detalhe' p.slug %}" class="btn">Ver Detalhes</a>
+            </div>
+        {% empty %}
+            <p>Nenhum produto cadastrado.</p>
+        {% endfor %}
     </article>
 
 {% endblock %}

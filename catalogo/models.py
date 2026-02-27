@@ -14,8 +14,8 @@ class Categoria(models.Model):
         verbose_name_plural = 'Categorias'
         ordering = ('nome',)
 
-        def __str__(self):
-            return self.nome
+    def __str__(self):
+        return self.nome
 
 class Producto(models.Model):
     objects = models.Manager()

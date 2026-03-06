@@ -5,8 +5,7 @@ from django.conf.urls.static import static # Função para servir arquivos está
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('catalogo.urls')),
-]
+    path('', include('catalogo.urls')),]
 
 # Adiciona o suporte a arquivos de mídia apenas durante o desenvolvimento (DEBUG=True)
 if settings.DEBUG:

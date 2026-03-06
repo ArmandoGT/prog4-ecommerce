@@ -117,6 +117,7 @@ Este projeto utiliza **MySQL** como banco de dados principal e requer a configur
     DBPASS=sua_senha_do_mysql
     DBHOST=localhost
     DBPORT=3360
+    CAR_SESSION_ID=
     ```
     
     > **Dica - Gerando uma nova SECRET_KEY segura:**

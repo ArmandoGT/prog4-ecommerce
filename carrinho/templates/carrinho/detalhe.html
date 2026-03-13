@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Carrinho de Compras {% endblock %}
+
+{% block conteudo %}
+    <article>
+        <header>
+            <h1>Carrinho de Compras</h1>
+        </header>
+        <table class="stripped">
+            <thead data-theme="dark">
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Quant</th>
+                <th>Preço Unit</th>
+                <th>Total</th>
+                <th>Remover</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in carrinho %}
+                {% with p=item.producto %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'produto_detalhe' p.slug %}">
+                                {% if p.imagem %}
+                                    <img src="{{ p.imagem.url }}" alt="Imagem do {{ p.nome }}"
+                                         style="max-width: 100px; border-radius: 8px;">
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td>
+                            {{ p.nome }}
+                        </td>
+                        <td>
+                            <form action="{% url 'addproduto' p.id %}"
+                                  method="post">{% csrf_token %} {{ item.formalterar.quant }} {{ item.formalterar.alterar }}
+                                <input type="submit" value="atualizar" role="button" class="dark">
+                            </form>
+                        </td>
+                        <td>R${{ item.preco }}</td>
+                        <td>
+                            R${{ item.valor_total }}
+                        </td>
+                        <td>
+                            <form action="{% url 'removerproduto' p.id %}" method="post">{% csrf_token %}
+                                <input type="submit" value="Remover" role="button">
+                            </form>
+                        </td>
+                    </tr>
+                {% endwith %}
+
+            {% empty %}
+                <tr>
+                    <td colspan="b">Seu Carrinho está vazio :(</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4"><strong>Total Geral</strong></td>
+                <td colspan="2">R$ {{ carrinho.get_preco_total }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="grid">
+            <a href="{% url 'listarprodutos' %}" role="button" class="pico-background-jade-650">Continuar Comprando...</a>
+        {% if carrinho|length != 0 %}
+            <a href="#" role="button" class="primary">
+                Finalizar Pedido
+            </a>
+        {% endif %}
+        </div>
+    </article>
+{% endblock %}

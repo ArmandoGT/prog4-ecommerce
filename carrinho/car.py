@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.conf import settings
 from catalogo.models import Producto
 
@@ -23,6 +25,31 @@ class Carrinho(object):
 
     def _salvar(self):
         self.carrinho.modified = True
+
+    def __iter__(self):
+
+        idsprod = self.carrinho.keys()
+        produtos = Producto.objects.filter(id__in=idsprod)
+        carrinho = self.carrinho.copy()
+        for produto in produtos:
+            carrinho[str(p.id)]["produto"] = p
+        for item in carrinho.values():
+            item["preco"] = Decimal(item["preco"])
+            item["valor_total"] = item["preco"] * item["quantidade"]
+            yield item
+
+    def __len__(self):
+        return sum(item["quantidade"] for item in self.carrinho.values())
+
+    def get_preco_total(self):
+        return sum(
+            Decimal(item["preco"] * item["quantidade"])
+            for item in self.carrinho.values()
+        )
+
+    def limpar_carrinho(self):
+        del self.session[settings.CAR_SESSION_ID]
+        self._salvar()
 
 
 

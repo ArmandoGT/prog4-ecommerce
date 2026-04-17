@@ -112,12 +112,18 @@ Este projeto utiliza **MySQL** como banco de dados principal e requer a configur
     ```env
     # Exemplo de arquivo .env
     SECRET_KEY=sua_secret_key_gerada_aqui
+    # Banco de Dados
     DBNAME=nome_do_seu_banco
     DBUSER=seu_usuario_do_mysql
     DBPASS=sua_senha_do_mysql
     DBHOST=localhost
     DBPORT=3360
+    # ID Sessão Carrinho
     CAR_SESSION_ID=
+    # Configurações do BRAINTREE (Pagamentos)
+    MERCHANT_ID=
+    PUBLIC_KEY=
+    PRIVATE_KEY=
     ```
     
     > **Dica - Gerando uma nova SECRET_KEY segura:**

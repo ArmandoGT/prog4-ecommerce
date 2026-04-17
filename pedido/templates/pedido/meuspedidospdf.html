@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Pedidos - Loja IFRO</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        header img {
+            height: 60px;
+            margin-right: 50px;
+        }
+
+        header h1 {
+            font-size: 24px;
+            margin: 0;
+            margin-left: auto;
+            color: #333;
+            vertical-align: middle;
+            background-color: #87CEEB;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #333;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .valor {
+            text-align: right;
+        }
+
+        .pago {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .pago.sim {
+            color: green;
+        }
+
+        .pago.nao {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <!-- Substitua pelo caminho da sua imagem -->
+        <h1><img src="../catalogo/static/imagens/logo.png" alt="Logo Loja IFRO">
+        &nbsp;&nbsp;&nbsp;&nbsp;Loja IFRO</h1>
+    </header>
+
+    <h2>Relatório de Pedidos de {{ usuario.get_full_name }}</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nº do Pedido</th>
+                <th>Itens do Pedido</th>
+                <th>Valor Total (R$)</th>
+                <th>Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in pedidos %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>
+                    {% for i in p.itens_pedido.all %}
+                        {{ i.produto.nome }},
+                    {% endfor %}
+                </td>
+                <td class="valor"> R$ {{ p.get_total_geral }}</td>
+                {% if p.pago %}
+                <td class="pago sim">Sim</td>
+                {% else %}
+                <td class="pago nao">Nao</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

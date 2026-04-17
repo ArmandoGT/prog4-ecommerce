@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Meus Pedidos {% endblock %}
+
+{% block conteudo %}
+<article>
+    <table class="striped">
+        <thead data-theme="dark">
+        <tr>
+            <th>Pedido</th>
+            <th>Itens</th>
+            <th>Total</th>
+            <th>Pago</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for p in pedidos %}
+        <tr>
+            <td>
+                <a href="{% url 'resumopedido' p.id %}" role="button"
+                   class="outline">
+                    {{ p.id }}
+                </a>
+            </td>
+            <td>
+                {% for i in p.itens_pedido.all %}
+                    {{ i.produto.nome }},
+                {% endfor %}
+            </td>
+            <td>
+                R$ {{ p.get_total_geral }}
+            </td>
+            <td>
+                {% if p.pago %}
+                    ✅
+                {% else %}
+                    ❌
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <td colspan="4">
+            <h3>Que pena, você ainda não comprou conosco!🥹</h3>
+        </td>
+        {% endfor %}
+        <td rolspan="4">
+            <a href="{% url 'meuspedidospdf' %}" role="button"
+               class="secondary">Gerar PDF</a>
+        </td>
+        </tbody>
+    </table>
+</article>
+
+{% endblock %}

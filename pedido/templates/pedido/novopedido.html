@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Checkout {% endblock %}
+
+{% block conteudo %}
+<article>
+  <header>
+    <h2>Seu Pedido</h2>
+  </header>
+  <table class="striped">
+    <thead data-theme="dark">
+    <tr>
+      <th>Produto</th>
+      <th>Quantidade</th>
+      <th>Valor</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in carrinho %}
+    <tr>
+      <td style="width:60%">{{ item.produto.nome }}</td>
+      <td>{{ item.quantidade }}</td>
+      <td>R$ {{ item.valor_total }}</td>
+    </tr>
+    {%endfor%}
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="3"><strong>Total Geral: R$ {{ carrinho.get_preco_total }}</strong></td>
+    </tr>
+    </tfoot>
+  </table>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <input type="submit" role="button" class="light"
+           value="Finalizar Pedido">
+  </form>
+</article>
+{% endblock %}

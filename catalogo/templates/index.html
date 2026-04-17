@@ -1,29 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block titulo %} Catálogo de Produtos - Home {% endblock %}
+{% block titulo %} Catalogo de Produtos {% endblock %}
 
 {% block conteudo %}
-    <article style="text-align: center; margin-bottom: 40px;">
-        <h2>Somos a melhor loja de produtos de informática da web</h2>
-        <h4 style="color: #666;">Aproveite as ofertas abaixo!</h4>
+    <article>
+        <h2>A melhor Loja de <br>Produtos de Informática
+            da Web!</h2>
+        <h4>Aproveite nossas ofertas!</h4>
     </article>
-
-    <hr>
-    <br>
-
-    <h3>Produtos em Destaque</h3>
     <article class="grid">
-        {% for p in prods %}
-            <div class="card">
-                <h3>{{ p.nome }}</h3>
-                <p style="font-size: 1.2rem; color: #28a745; font-weight: bold;">R$ {{ p.preco }}</p>
-
-                <a href="{% url 'produto_detalhe' p.slug %}" class="btn">Ver Detalhes</a>
-            </div>
-        {% empty %}
-            <p>Nenhum produto cadastrado.</p>
-        {% endfor %}
+    {% for p in prods %}
+        <div>
+            <a href="{% url 'detalheproduto' p.slug %}">
+            <img src="{% if p.imagem %}
+                         {{ p.imagem.url }}
+                      {% else %}
+                         {% static 'imagens/naodisp.png' %}
+                      {% endif %}" alt="imagem de {{ p.nome }}">
+            </a>
+            <p>{{ p.nome }} - R${{ p.preco }}</p>
+        </div>
+    {% endfor %}
     </article>
-
 {% endblock %}

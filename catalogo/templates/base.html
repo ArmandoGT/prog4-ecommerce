@@ -2,37 +2,74 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block titulo %} Meu E-commerce {% endblock %}</title>
-
-    <style>
-        /* Estilos básicos só para não ficar tudo branco */
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-        header { background-color: #005C84; color: white; padding: 1.5rem; text-align: center; }
-        header a { color: white; text-decoration: none; font-weight: bold; }
-        main { padding: 20px; max-width: 900px; margin: 20px auto; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .grid { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-around; }
-        .card { border: 1px solid #ddd; padding: 15px; border-radius: 8px; width: 28%; text-align: center; background: #fafafa; }
-        .btn { display: inline-block; padding: 8px 15px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-top: 10px; }
-    </style>
+    <title>Loja ADS - {% block titulo %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
 </head>
 <body>
-
-    <header>
-        <h1>Catálogo de Produtos</h1>
-        <nav>
-            <a href="{% url 'home' %}">Início da Loja</a>
-        </nav>
-    </header>
-
-    <main>
-        {% block conteudo %}
-        {% endblock %}
-    </main>
-
-    <footer style="text-align: center; padding: 20px; color: #666;">
-        <p>&copy; 2026 - Programação IV | IFRO</p>
-    </footer>
-
+<header class="container pico-background-jade-650">
+    <nav>
+        <ul>
+            <li>
+                <strong><h1 class="pico-color-jade-50">
+                    <a href="{% url 'home' %}">🏬</a> Loja ADS
+                </h1></strong>
+            </li>
+        </ul>
+        <ul>
+            {% if request.user.is_authenticated %}
+            <li>
+                <details class="dropdown">
+                    <summary>
+                        {{ request.user.first_name }}
+                    </summary>
+                    <ul dir="rtl">
+                        <li><a href="{% url 'meuspedidos' %}" role="button" class="outline">
+                            Meus Pedidos
+                        </a></li>
+                        <li>
+                            <form action="{% url 'logoutuser' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" role="button"
+                                       class="outline" value="Logout">
+                            </form>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+            {% else %}
+            <li>
+                <details class="dropdown">
+                    <summary>
+                        Comece aqui
+                    </summary>
+                    <ul dir="rtl">
+                        <li><a href="{% url 'loginuser' %}"
+                               role="button" class="outline">Entre</a></li>
+                        <li><a href="{% url 'cadusuario' %}"
+                                role="button" class="outline">Cadastre-se</a></li>
+                    </ul>
+                </details>
+            </li>
+            {% endif %}
+            <li>
+                <a href="{% url 'listarprodutos' %}" class="pico-color-jade-50">Produtos</a>
+            </li>
+            <li>
+                <a href="" class="pico-color-jade-50">Sobre&nbsp;&nbsp;&nbsp;</a>
+            </li>
+            <li>
+                <a href="{% url 'vercarrinho' %}" class="pico-color-jade-50">
+                    🛒<span>{{ carrinho|length }} itens</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="container">
+    {% block conteudo %}
+    {% endblock %}
+</main>
+{% block scripts %}{% endblock %}
 </body>
 </html>

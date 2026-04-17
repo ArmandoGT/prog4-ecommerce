@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} {{ produto.slug }} {% endblock %}
+
+{% block conteudo %}
+<article>
+    <header>
+        <h1>{{ produto.nome }}</h1>
+    </header>
+    <div class="grid">
+        <div>
+            <img src="{% if produto.imagem %}
+                         {{ produto.imagem.url }}
+                      {% else %}
+                         {% static 'imagens/naodisp.png' %}
+                      {% endif %}"
+                 alt="imagem de {{ produto.nome }}"
+            >
+        </div>
+        <div>
+            <p>{{ produto.descricao  }}</p>
+            <p>R${{ produto.preco }}</p>
+            <form action="{% url 'addproduto' produto.id %}" method="post">
+                {% csrf_token %}
+                {{ formadd.as_p }}
+                <button class="secondary">🛒 Adicionar ao Carrinho</button>
+            </form>
+        </div>
+    </div>
+</article>
+{% endblock %}

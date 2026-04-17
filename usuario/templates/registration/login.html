@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Login{% endblock %}
+
+{% block conteudo %}
+  <article>
+    {% if messages %}
+    {% for m in messages %}
+      <h3 class="pico-background-jade-300">{{ m }}</h3>
+    {% endfor %}
+    {% endif %}
+    <h2>Use o formulário abaixo para entrar</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_div }}
+      <input type="hidden" name="next" value="{{ next }}">
+      <input type="submit" role="button" class="light"
+             value="Entrar">
+    </form>
+  </article>
+{% endblock %}

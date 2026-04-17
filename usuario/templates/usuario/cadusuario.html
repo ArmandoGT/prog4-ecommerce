@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Novo usuário{% endblock %}
+
+{% block conteudo %}
+  <article>
+    {% if messages %}
+    {% for m in messages %}
+      <h3 class="pico-background-jade-300">{{ m }}</h3>
+    {% endfor %}
+    {% endif %}
+    <h2>Cadastro de Novos Usuários</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_div }}
+      <input type="submit" role="button" class="primary"
+             value="Cadastrar">
+    </form>
+  </article>
+{% endblock %}

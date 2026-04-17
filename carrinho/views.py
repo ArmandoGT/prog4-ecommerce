@@ -4,32 +4,41 @@ from django.views import View
 from django.views.generic import TemplateView, FormView
 
 from carrinho.car import Carrinho
-from catalogo.models import Producto
+from catalogo.models import Produto
 from .forms import CarrinhoForm
 
-class CarrinhhoAddProdutoView(FormView):
+
+class CarrinhoAddProdutoView(FormView):
     form_class = CarrinhoForm
     success_url = reverse_lazy('listarprodutos')
 
     def post(self, request, *args, **kwargs):
-        self.producto = Producto.disponivel.get(id=kwargs['idProducto'])
-        return super(CarrinhhoAddProdutoView, self).post(request, *args, **kwargs)
+        self.produto = Produto.disponiveis.get(id=kwargs['idprod'])
+        return super(CarrinhoAddProdutoView, self).post(request, *args, **kwargs)
 
     def form_valid(self, form):
         cd = form.cleaned_data
         carrinho = Carrinho(self.request)
-        carrinho.addProducto(producto=self.producto, quant=cd['quant'], alterarquant=cd['alterarquant'])
+        carrinho.addProduto(produto=self.produto,
+                            quant=cd['quant'],
+                            alterarquant=cd['alterar'])
+        if cd['alterar']:
+            return redirect('vercarrinho')
         return super().form_valid(form)
 
     def form_invalid(self, form):
+        print(form.errors)
         return redirect('listarprodutos')
 
-class RemoverProductoCarrinhoView(View):
+
+class RemoverProdutoCarrinhoView(View):
+
     def post(self, request, *args, **kwargs):
-        self.producto = Producto.disponivel.get(id=kwargs['idProducto'])
+        self.produto = Produto.disponiveis.get(id=kwargs['idprod'])
         carrinho = Carrinho(self.request)
-        carrinho.removerProducto(self.producto)
+        carrinho.removerProduto(self.produto)
         return redirect('vercarrinho')
+
 
 class VerCarrinhoTemplateView(TemplateView):
     template_name = 'carrinho/detalhe.html'
@@ -38,9 +47,8 @@ class VerCarrinhoTemplateView(TemplateView):
         context = super(VerCarrinhoTemplateView, self).get_context_data(**kwargs)
         carrinho = Carrinho(self.request)
         for item in carrinho:
-            item["formalterar"] = CarrinhoForm(
+            item["form_alterar"] = CarrinhoForm(
                 initial={"quant": item["quantidade"], "alterar": True}
             )
-
-        context["carrinho"] = carrinho
+        context['carrinho'] = carrinho
         return context

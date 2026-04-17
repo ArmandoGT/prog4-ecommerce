@@ -1,4 +1,4 @@
 from .car import Carrinho
 
 def carrinho(request):
-    return
+    return {'carrinho': Carrinho(request)}
